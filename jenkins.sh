@@ -1,9 +1,21 @@
 #!/bin/bash
 
-echo "📦 Installation des dépendances..."
+set -e
+
+echo "🧪 Lancement de Jenkins Test Script"
+
+python -m venv .venv
+source .venv/bin/activate  # ou .venv\\Scripts\\activate sur Windows
+
+pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "🚀 Lancement des tests Selenium..."
-pytest tests/ --html=report.html --self-contained-html
+# 👇 Rendre les modules visibles
+export PYTHONPATH=$(pwd)
 
-echo "✅ Rapport généré : report.html"
+mkdir -p reports
+
+pytest tests/ --browser=chrome --headless \
+  --html=reports/report.html \
+  --self-contained-html \
+  -v --capture=tee-sys

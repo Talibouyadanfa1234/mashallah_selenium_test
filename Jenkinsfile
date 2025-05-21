@@ -2,26 +2,29 @@ pipeline {
 	agent any
 
     environment {
-		BASE_URL = 'https://recette-front.machallahtravels.com/'
+		PYTHONPATH = "${env.WORKSPACE}"
     }
 
     stages {
-		stage('Install dependencies') {
+		stage('Exécution du script Jenkins') {
 			steps {
-				sh 'pip install -r requirements.txt'
+				echo '🚀 Exécution du script jenkins.sh'
+                bat 'jenkins.sh'
             }
         }
 
-        stage('Run tests') {
+        stage('Archivage rapport') {
 			steps {
-				sh './jenkins.sh'
+				echo '📦 Archivage du rapport HTML généré'
+                archiveArtifacts artifacts: 'reports/report.html', allowEmptyArchive: true
             }
         }
+    }
 
-        stage('Archive Report') {
-			steps {
-				archiveArtifacts artifacts: 'report.html', fingerprint: true
-            }
+    post {
+		always {
+			echo '🧹 Nettoyage du workspace'
+            deleteDir()
         }
     }
 }
