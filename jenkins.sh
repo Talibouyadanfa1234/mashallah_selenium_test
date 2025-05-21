@@ -4,11 +4,6 @@ set -e
 
 echo "🧪 Lancement de Jenkins Test Script"
 
-python -m venv .venv
-.venv/bin/activate  # ou .venv\\Scripts\\activate sur Windows
-
-pip install --upgrade pip
-pip install -r requirements.txt
 
 # 👇 Rendre les modules visibles
 export PYTHONPATH=$(pwd)
