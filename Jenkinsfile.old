@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        PYTHONPATH = "${env.WORKSPACE}"
+    }
+
+    stages {
+        stage('Préparation') {
+            steps {
+                echo '🛠️ Configuration de l’environnement Python'
+                bat '''
+                python -m venv .venv
+                call .venv\\Scripts\\activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                echo '🚀 Lancement des tests SeleniumBase'
+                bat '''
+                call .venv\\Scripts\\activate
+                pytest tests/ --browser=chrome --headless ^
+                    --html=reports/report.html ^
+                    --self-contained-html ^
+                    -v --capture=tee-sys
+                '''
+            }
+        }
+
+        stage('Archive rapport') {
+            steps {
+                echo '📦 Archivage du rapport HTML'
+                archiveArtifacts artifacts: 'reports/report.html', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo '🧹 Nettoyage'
+            deleteDir()
+        }
+    }
+}

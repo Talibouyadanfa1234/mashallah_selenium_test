@@ -1,0 +1,37 @@
+tests/test_transports.py::TestTransports::test_transport_options
+--------------------------------------------------------------------
+Last Page: https://recette-front.machallahtravels.com/transports
+ Duration: 8.15s
+  Browser: Chrome 136.0.7103.114
+   Driver: chromedriver 136.0.7103.94
+Timestamp: 1747833892  (Unix Timestamp)
+     Date: Wednesday, 21 May 2025
+     Time: 1:24:52 PM  (São Tomé (heure standard), UTC+00)
+--------------------------------------------------------------------
+Traceback:
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\tests\test_transports.py", line 12, in test_transport_options
+    page.verify_section_title(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\page_objects\transports_page.py", line 10, in verify_section_title
+    sb.assert_element(self.TITLE_SECTION)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\.venv\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 9751, in assert_element
+    self.wait_for_element_visible(selector, by=by, timeout=timeout)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\.venv\Lib\site-packages\seleniumbase\fixtures\base_case.py", line 9157, in wait_for_element_visible
+    return page_actions.wait_for_element_visible(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.driver,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        original_selector=original_selector,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\.venv\Lib\site-packages\seleniumbase\fixtures\page_actions.py", line 514, in wait_for_element_visible
+    timeout_exception(NoSuchElementException, message)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TalibouyaDANFA\Desktop\mashaalah__seenium_test\.venv\Lib\site-packages\seleniumbase\fixtures\page_actions.py", line 267, in timeout_exception
+    raise exc(msg)
+Exception: Message: 
+ Element {h3} was not present after 7 seconds!
