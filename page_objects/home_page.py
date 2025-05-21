@@ -1,26 +1,30 @@
-from selenium.webdriver.common.by import By
-from page_objects.base_page import BasePage
+from seleniumbase import BaseCase
 
-class HomePage(BasePage):
-    TITLE_TEXT = "Des déplacements sûrs et confortables"
+class HomePage:
+    TITLE_TEXT = "Des déplacements sûrs\net confortables"
+    TRANSPORT_BTN = "span.mat-mdc-button-touch-target"
+    PELERINAGE_BTN = "span.mat-mdc-button-touch-target"
 
-    TRANSPORT_CARD = (By.XPATH, "//div[contains(text(),'TRANSPORT')]/../..")
-    PELERINAGE_CARD = (By.XPATH, "//div[contains(text(),'PÈLERINAGE')]/../..")
+    TITRE_H1 = "p"
 
-    TRANSPORT_BUTTON = (By.XPATH, "//div[contains(text(),'TRANSPORT')]/../..//button")
-    PELERINAGE_BUTTON = (By.XPATH, "//div[contains(text(),'PÈLERINAGE')]/../..//button")
+    def verify_title_present(self, sb):
+        sb.assert_element(self.TITRE_H1)
+        texte = sb.get_text(self.TITRE_H1)
+        print(texte)
+        assert self.TITLE_TEXT in texte
 
-    def verify_homepage_loaded(self):
-        assert self.TITLE_TEXT in self.driver.page_source
 
-    def is_transport_section_visible(self):
-        return self.is_element_visible(*self.TRANSPORT_CARD)
+    def click_transport_commencer(self, sb):
+        sb.wait_for_element_visible(self.TRANSPORT_BTN, timeout=10)
+        sb.click(self.TRANSPORT_BTN)
+        sb.sleep(1)  # courte pause pour attendre l'effet du clic
 
-    def is_pelerinage_section_visible(self):
-        return self.is_element_visible(*self.PELERINAGE_CARD)
+    def click_pelerinage_commencer(self, sb):
+        sb.wait_for_element_visible(self.PELERINAGE_BTN , timeout=10)
+        buttons = sb.find_elements("css selector", self.PELERINAGE_BTN )
+        if len(buttons) >= 2:
+            buttons[1].click()  # clic sur le 2e bouton (index 1)
+        else:
+            raise Exception("Bouton 'Pèlerinage -> Commencer' non trouvé.")
+        sb.sleep(1)
 
-    def click_transport_commencer(self):
-        self.click(*self.TRANSPORT_BUTTON)
-
-    def click_pelerinage_commencer(self):
-        self.click(*self.PELERINAGE_BUTTON)

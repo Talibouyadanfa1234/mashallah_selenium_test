@@ -1,53 +1,22 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from seleniumbase import BaseCase
 
-class BasePage:
-    def __init__(self, driver, timeout=10):
-        self.driver = driver
-        self.timeout = timeout
+class BasePage(BaseCase):
 
-    def open(self, url):
-        self.driver.get(url)
+    def open_page(self, url):
+        self.open(url)
 
-    def find(self, by, value):
-        return self.driver.find_element(by, value)
+    def click_element(self, selector):
+        self.click(selector)
 
-    def click(self, by, value):
+    def type_text(self, selector, text):
+        self.type(selector, text)
+
+    def get_text_of(self, selector):
+        return self.get_text(selector)
+
+    def is_visible(self, selector):
         try:
-            WebDriverWait(self.driver, self.timeout).until(
-                EC.element_to_be_clickable((by, value))
-            )
-            self.driver.find_element(by, value).click()
-        except TimeoutException:
-            raise Exception(f"Element not clickable: {by} = {value}")
-
-    def wait_for_element(self, by, value):
-        try:
-            return WebDriverWait(self.driver, self.timeout).until(
-                EC.presence_of_element_located((by, value))
-            )
-        except TimeoutException:
-            raise Exception(f"Element not found: {by} = {value}")
-
-    def is_element_visible(self, by, value):
-        try:
-            return WebDriverWait(self.driver, self.timeout).until(
-                EC.visibility_of_element_located((by, value))
-            )
-        except TimeoutException:
+            self.assert_element(selector)
+            return True
+        except Exception:
             return False
-
-    def get_text(self, by, value):
-        try:
-            return self.find(by, value).text
-        except NoSuchElementException:
-            return None
-
-    def type(self, by, value, text):
-        try:
-            field = self.find(by, value)
-            field.clear()
-            field.send_keys(text)
-        except NoSuchElementException:
-            raise Exception(f"Unable to type in element: {by} = {value}")
