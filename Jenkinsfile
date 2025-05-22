@@ -21,7 +21,7 @@ pipeline {
         stage('Set PYTHONPATH') {
 			steps {
 				echo '📁 Définir PYTHONPATH'
-                sh 'export PYTHONPATH=$(pwd)'
+                sh 'set PYTHONPATH=%cd%'
             }
         }
 
