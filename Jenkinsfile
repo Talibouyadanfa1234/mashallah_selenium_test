@@ -12,7 +12,7 @@ pipeline {
                 bat '''
                     python -m venv %VENV%
                     call %VENV%\\Scripts\\activate
-                    pip install -r requirements.txt
+                    %VENV%\\Scripts\\python.exe -m pip install -r requirements.txt
                 '''
             }
         }
