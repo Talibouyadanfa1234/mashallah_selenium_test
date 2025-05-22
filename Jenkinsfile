@@ -6,17 +6,7 @@ pipeline {
     }
 
     stages {
-		stage('Install dependencies') {
-			steps {
-				echo '🔧 Création de l’environnement et installation des dépendances'
-                sh '''
-                    python3 -m venv ${VENV}
-                    source ${VENV}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                '''
-            }
-        }
+
 
         stage('Set PYTHONPATH') {
 			steps {
