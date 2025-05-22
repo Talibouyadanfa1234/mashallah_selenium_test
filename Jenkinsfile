@@ -6,21 +6,25 @@ pipeline {
     }
 
     stages {
-
-
-        stage('Set PYTHONPATH') {
+		stage('Install dependencies') {
 			steps {
-				echo '📁 Définir PYTHONPATH'
-                sh 'set PYTHONPATH=%cd%'
+				echo '🔧 Création de l’environnement virtuel et installation des dépendances'
+                bat '''
+                    python -m venv %VENV%
+                    call %VENV%\\Scripts\\activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Home Page Tests') {
 			steps {
-				echo '🏠 Tests de la page d\'accueil'
-                sh '''
-                    source ${VENV}/bin/activate
-                    pytest tests/test_home.py --browser=chrome --headed --html=reports/home.html --self-contained-html
+				echo '🏠 Exécution des tests de la page d\'accueil'
+                bat '''
+                    set PYTHONPATH=%cd%
+                    call %VENV%\\Scripts\\activate
+                    pytest tests\\test_home.py --browser=chrome --headed --html=reports\\home.html --self-contained-html
                 '''
             }
             post {
@@ -33,9 +37,10 @@ pipeline {
         stage('Run Reservation Form Tests') {
 			steps {
 				echo '📝 Tests du formulaire de réservation'
-                sh '''
-                    source ${VENV}/bin/activate
-                    pytest tests/test_reserver.py --browser=chrome --headed --html=reports/reserver.html --self-contained-html
+                bat '''
+                    set PYTHONPATH=%cd%
+                    call %VENV%\\Scripts\\activate
+                    pytest tests\\test_reserver.py --browser=chrome --headed --html=reports\\reserver.html --self-contained-html
                 '''
             }
             post {
@@ -48,9 +53,10 @@ pipeline {
         stage('Run Transports Page Tests') {
 			steps {
 				echo '🚌 Tests de la page transports'
-                sh '''
-                    source ${VENV}/bin/activate
-                    pytest tests/test_transports.py --browser=chrome --headed --html=reports/transports.html --self-contained-html
+                bat '''
+                    set PYTHONPATH=%cd%
+                    call %VENV%\\Scripts\\activate
+                    pytest tests\\test_transports.py --browser=chrome --headed --html=reports\\transports.html --self-contained-html
                 '''
             }
             post {
